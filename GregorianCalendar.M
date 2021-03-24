@@ -1,8 +1,8 @@
 let
-    // Generate a 3 years lenght Gregorian Calendar, Starting in the same year than tmpMin
-    tmpMin = List.Min(Fcts_Runn_Assignments[StartDate]),
-    min = #date(Date.Year(tmpMin),1,1),
-    len = 3 * 365,
+    //  Generate a 6 (3 + 3)  years lenght Gregorian Calendar, Starting 3 before this year
+    tmp = DateTime.LocalNow(),
+    min = #date(Date.Year(tmp)-3,1,1),
+    len = 6 * 365,
     Source=List.Dates(min,len,#duration(1,0,0,0)),
     #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
     #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
@@ -19,3 +19,4 @@ let
     #"Added Custom9" = Table.AddColumn(#"Added Index", "ShortMonth", each Text.Proper(Date.ToText([Date],"MMM")))
 in
     #"Added Custom9"
+	
